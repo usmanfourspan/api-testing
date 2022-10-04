@@ -4,7 +4,7 @@ namespace App\Http\Requests\Projects;
 
 use App\Http\Requests\AbstractFormRequest;
 
-class CreateProjectRequest extends AbstractFormRequest
+class ViewProjectRequest extends AbstractFormRequest
 {
 
     public function authorize(): bool
@@ -12,11 +12,11 @@ class CreateProjectRequest extends AbstractFormRequest
         return true;
     }
 
+
     public function rules(): array
     {
         return [
-            'title' => ['required', 'max:255'],
-            'description' => ['required', 'max:1000']
+            'id' => ['required']
         ];
     }
 }

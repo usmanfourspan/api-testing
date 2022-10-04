@@ -16,4 +16,15 @@ class Project extends Model
         'title',
         'description'
     ];
+
+    protected $hidden = [
+        'id',
+        'created_at',
+        'updated_at'
+    ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
 }

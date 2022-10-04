@@ -36,3 +36,16 @@ test('a user can create a project', function () {
         ->and($project->description)->toBeString()->toEqual($atttributes['description']);
 
 });
+
+test('a user can view a project', function () {
+    $project = Project::factory()->create();
+    $response = $this->getJson(route('projects.show', $project->uuid));
+    $response->assertStatus(Response::HTTP_OK);
+});
+
+test('a user can delete a project', function () {
+    $project = Project::factory()->create();
+    $response = $this->deleteJson(route('projects.destroy', $project->uuid));
+    $response->assertStatus(Response::HTTP_OK)
+             ->assertJson(['message' => 'The project is deleted successfully.']);
+});

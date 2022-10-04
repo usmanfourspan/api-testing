@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Projects\CreateProjectRequest;
 use App\Models\Project;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,7 +22,23 @@ class ProjectsController extends Controller
     {
         $inputData = array_merge($request->validated(), ['uuid' => (string) Str::orderedUuid()]);
         Project::create($inputData);
-        return response()->json(['message' => 'The project is created successfully.'], Response::HTTP_CREATED);
+        return response()->json(['message' => __('messages.project-create')], Response::HTTP_CREATED);
     }
+
+    public function show(Project $project)
+    {
+        return response()->json([
+            'project' => $project
+        ]);
+    }
+
+    public function destroy(Project $project)
+    {
+        $project->delete();
+        return response()->json([
+           'message' => __('messages.project-delete')
+        ]);
+    }
+
 
 }
