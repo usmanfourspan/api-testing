@@ -31,7 +31,8 @@ test('a user can create a project', function () {
 
     $project = Project::latest()->first();
 
-        expect($project->title)->toBeString()->toEqual($atttributes['title'])
+        expect($project->uuid)->toBeString()->not->toBeEmpty()
+        ->and($project->title)->toBeString()->toEqual($atttributes['title'])
         ->and($project->description)->toBeString()->toEqual($atttributes['description']);
 
 });
