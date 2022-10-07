@@ -18,7 +18,6 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'uuid' => (string) Str::orderedUuid(),
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),

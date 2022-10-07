@@ -19,7 +19,6 @@ class ProjectFactory extends Factory
     public function definition()
     {
         return [
-            'uuid' => (string) Str::orderedUuid(),
             'user_id' => User::factory()->create()->id,
             'title' => fake()->unique()->jobTitle(),
             'description' => fake()->text()
