@@ -7,7 +7,6 @@ test('a user can see his projects', function () {
     $response->assertStatus(Response::HTTP_OK);
 });
 
-
 test('a project requires a title', function () {
     $atttributes = Project::factory()->raw(['title' => '']);
     $response = $this->postJson(route('projects.store'), $atttributes);
@@ -15,12 +14,18 @@ test('a project requires a title', function () {
              ->assertJson(['message' => 'The title field is required.']);
 });
 
-
 test('a project requires a description', function () {
     $atttributes = Project::factory()->raw(['description' => '']);
     $response = $this->postJson(route('projects.store'), $atttributes);
     $response->assertStatus(Response::HTTP_BAD_REQUEST)
              ->assertJson(['message' => 'The description field is required.']);
+});
+
+test('a project requires an owner', function () {
+    $atttributes = Project::factory()->raw(['user_id' => null]);
+    $response = $this->postJson(route('projects.store'), $atttributes);
+    $response->assertStatus(Response::HTTP_BAD_REQUEST)
+        ->assertJson(['message' => 'The project requires an owner.']);
 });
 
 test('a user can create a project', function () {
