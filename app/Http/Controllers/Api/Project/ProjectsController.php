@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Project;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Projects\CreateProjectRequest;
@@ -20,8 +20,7 @@ class ProjectsController extends Controller
 
     public function store(CreateProjectRequest $request)
     {
-        $inputData = array_merge($request->validated(), ['uuid' => (string) Str::orderedUuid()]);
-        Project::create($inputData);
+        Project::create($request->validated());
         return response()->json(['message' => __('messages.project-create')], Response::HTTP_CREATED);
     }
 

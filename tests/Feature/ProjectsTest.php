@@ -8,37 +8,37 @@ test('a user can see his projects', function () {
 });
 
 test('a project requires a title', function () {
-    $atttributes = Project::factory()->raw(['title' => '']);
-    $response = $this->postJson(route('projects.store'), $atttributes);
+    $attributes = Project::factory()->raw(['title' => '']);
+    $response = $this->postJson(route('projects.store'), $attributes);
     $response->assertStatus(Response::HTTP_BAD_REQUEST)
-             ->assertJson(['message' => 'The title field is required.']);
+             ->assertJson(['message' => 'The title is required.']);
 });
 
 test('a project requires a description', function () {
-    $atttributes = Project::factory()->raw(['description' => '']);
-    $response = $this->postJson(route('projects.store'), $atttributes);
+    $attributes = Project::factory()->raw(['description' => '']);
+    $response = $this->postJson(route('projects.store'), $attributes);
     $response->assertStatus(Response::HTTP_BAD_REQUEST)
-             ->assertJson(['message' => 'The description field is required.']);
+             ->assertJson(['message' => 'The description is required.']);
 });
 
 test('a project requires an owner', function () {
-    $atttributes = Project::factory()->raw(['user_id' => null]);
-    $response = $this->postJson(route('projects.store'), $atttributes);
+    $attributes = Project::factory()->raw(['user_id' => null]);
+    $response = $this->postJson(route('projects.store'), $attributes);
     $response->assertStatus(Response::HTTP_BAD_REQUEST)
         ->assertJson(['message' => 'The project requires an owner.']);
 });
 
 test('a user can create a project', function () {
-    $atttributes = Project::factory()->raw();
-    $response = $this->postJson(route('projects.store'), $atttributes);
+    $attributes = Project::factory()->raw();
+    $response = $this->postJson(route('projects.store'), $attributes);
     $response->assertStatus(Response::HTTP_CREATED)
              ->assertJson(['message' => 'The project is created successfully.']);
 
     $project = Project::latest()->first();
 
         expect($project->uuid)->toBeString()->not->toBeEmpty()
-        ->and($project->title)->toBeString()->toEqual($atttributes['title'])
-        ->and($project->description)->toBeString()->toEqual($atttributes['description']);
+        ->and($project->title)->toBeString()->toEqual($attributes['title'])
+        ->and($project->description)->toBeString()->toEqual($attributes['description']);
 
 });
 

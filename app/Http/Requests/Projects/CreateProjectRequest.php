@@ -24,7 +24,9 @@ class CreateProjectRequest extends AbstractFormRequest
     public function messages()
     {
         return [
-          'user_id.required' => 'The project requires an owner.'
+            'title.required' => 'The title is required.',
+            'description.required' => 'The description is required.',
+            'user_id.required' => 'The project requires an owner.'
         ];
     }
 }

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\UseUuid;
 
 class Project extends Model
 {
-    use HasFactory;
+    use HasFactory, UseUuid;
 
     protected $table = 'projects';
 

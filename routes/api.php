@@ -15,10 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('register', [Api\Auth\AuthController::class, 'register'])->name('auth.register');
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('projects', Api\ProjectsController::class)->except('edit');
+Route::apiResource('projects', Api\Project\ProjectsController::class)->except('edit');
 
 
