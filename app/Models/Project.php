@@ -13,6 +13,7 @@ class Project extends Model
 
     protected $fillable = [
         'uuid',
+        'user_id',
         'title',
         'description'
     ];
