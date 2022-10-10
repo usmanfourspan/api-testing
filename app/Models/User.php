@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Hash;
 use App\Traits\UseUuid;
 
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, UseUuid;
@@ -44,5 +45,12 @@ class User extends Authenticatable
         return Attribute::make(
             set: fn ($value) => Hash::make($value),
         );
+    }
+    /*
+     * Relationships
+     */
+    public function projects()
+    {
+        return $this->hasMany(Project::class, 'user_id', 'id');
     }
 }

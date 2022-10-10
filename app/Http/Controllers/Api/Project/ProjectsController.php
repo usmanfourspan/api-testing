@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Api\Project;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Projects\CreateProjectRequest;
 use App\Models\Project;
-use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProjectsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $projects = Project::all();
+        $projects = $request->user()->projects;
         return response()->json([
            'projects' => $projects
         ]);
@@ -24,15 +24,27 @@ class ProjectsController extends Controller
         return response()->json(['message' => __('messages.project-create')], Response::HTTP_CREATED);
     }
 
-    public function show(Project $project)
+    public function show(Project $project, Request $request)
     {
+        if ($request->user()->id !== $project->user_id) {
+            return response()->json([
+               'message' => 'UnAuthorized Action'
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+
         return response()->json([
             'project' => $project
         ]);
     }
 
-    public function destroy(Project $project)
+    public function destroy(Project $project, Request $request)
     {
+        if ($request->user()->id !== $project->user_id) {
+            return response()->json([
+                'message' => 'UnAuthorized Action'
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+
         $project->delete();
         return response()->json([
            'message' => __('messages.project-delete')

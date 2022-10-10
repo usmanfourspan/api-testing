@@ -19,9 +19,9 @@ Route::post('auth/register', [Api\Auth\AuthController::class, 'register'])->name
 Route::post('auth/login', [Api\Auth\AuthController::class, 'login'])->name('auth.login');
 
 Route::group(['middleware' => ['auth:sanctum']], function() {
-
+    Route::apiResource('projects', Api\Project\ProjectsController::class)->except('edit');
 });
-Route::apiResource('projects', Api\Project\ProjectsController::class)->except('edit');
+
 
 
 

@@ -1,13 +1,17 @@
 <?php
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\Project;
+use Laravel\Sanctum\Sanctum;
+use App\Models\User;
 
 test('a user can see his projects', function () {
+    Sanctum::actingAs(User::factory()->create(), ['*']);
     $response = $this->getJson(route('projects.index'));
     $response->assertStatus(Response::HTTP_OK);
 });
 
 test('a project requires a title', function () {
+    Sanctum::actingAs(User::factory()->create(), ['*']);
     $attributes = Project::factory()->raw(['title' => '']);
     $response = $this->postJson(route('projects.store'), $attributes);
     $response->assertStatus(Response::HTTP_BAD_REQUEST)
@@ -15,20 +19,16 @@ test('a project requires a title', function () {
 });
 
 test('a project requires a description', function () {
+    Sanctum::actingAs(User::factory()->create(), ['*']);
     $attributes = Project::factory()->raw(['description' => '']);
     $response = $this->postJson(route('projects.store'), $attributes);
     $response->assertStatus(Response::HTTP_BAD_REQUEST)
              ->assertJson(['message' => 'The description is required.']);
 });
 
-test('a project requires an owner', function () {
-    $attributes = Project::factory()->raw(['user_id' => null]);
-    $response = $this->postJson(route('projects.store'), $attributes);
-    $response->assertStatus(Response::HTTP_BAD_REQUEST)
-        ->assertJson(['message' => 'The project requires an owner.']);
-});
 
 test('a user can create a project', function () {
+    Sanctum::actingAs(User::factory()->create(), ['*']);
     $attributes = Project::factory()->raw();
     $response = $this->postJson(route('projects.store'), $attributes);
     $response->assertStatus(Response::HTTP_CREATED)
@@ -43,13 +43,17 @@ test('a user can create a project', function () {
 });
 
 test('a user can view a project', function () {
-    $project = Project::factory()->create();
+    $user = User::factory()->create();
+    Sanctum::actingAs($user , ['*']);
+    $project = Project::factory()->create(['user_id' => $user->id]);
     $response = $this->getJson(route('projects.show', $project->uuid));
     $response->assertStatus(Response::HTTP_OK);
 });
 
 test('a user can delete a project', function () {
-    $project = Project::factory()->create();
+    $user = User::factory()->create();
+    Sanctum::actingAs($user, ['*']);
+    $project = Project::factory()->create(['user_id' => $user->id]);
     $response = $this->deleteJson(route('projects.destroy', $project->uuid));
     $response->assertStatus(Response::HTTP_OK)
              ->assertJson(['message' => 'The project is deleted successfully.']);

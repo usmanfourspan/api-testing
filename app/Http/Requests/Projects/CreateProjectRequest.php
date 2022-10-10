@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Requests\Projects;
-
 use App\Http\Requests\AbstractFormRequest;
 
 class CreateProjectRequest extends AbstractFormRequest
@@ -10,6 +9,13 @@ class CreateProjectRequest extends AbstractFormRequest
     public function authorize(): bool
     {
         return true;
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'user_id' => $this->user()->id
+        ]);
     }
 
     public function rules(): array
