@@ -4,7 +4,7 @@ namespace App\Http\Requests\Auth;
 
 use App\Http\Requests\AbstractFormRequest;
 
-class RegisterUserRequest extends AbstractFormRequest
+class RegisterRequest extends AbstractFormRequest
 {
 
     public function authorize()

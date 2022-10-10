@@ -37,3 +37,13 @@ test('registers a new user', function () {
     $response->assertStatus(Response::HTTP_CREATED)
         ->assertJson(['message' => 'The user is created successfully.']);
 });
+
+test('login as a user', function () {
+    $user = User::factory()->create();
+    $response = $this->postJson(route('auth.login'), [
+        'email' => $user->email,
+        'password' => 'us04bs12'
+    ]);
+    $response->assertStatus(Response::HTTP_OK)
+             ->assertJson(['message' => 'The user is logged in successfully.']);
+});
