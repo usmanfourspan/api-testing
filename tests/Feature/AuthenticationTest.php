@@ -46,4 +46,11 @@ test('login as a user', function () {
     ]);
     $response->assertStatus(Response::HTTP_OK)
              ->assertJson(['message' => 'The user is logged in successfully.']);
+
+    expect($response->content())
+        ->json()
+        ->toHaveCount(2)
+        ->message->toBeString()
+        ->token->toBeString();
+
 });
